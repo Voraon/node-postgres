@@ -5,21 +5,21 @@ const app = express();
 const db = require("./db/queries");
 const port = 3000;
 
-const knex = require("knex")({
-  client: "pg",
-  connection: {
-    host: "localhost",
-    port: 5432,
-    user: "me",
-    password: "password",
-    database: "api",
-  },
-});
+const knex = require("./db/knex");
+
+// const knex = require("knex")({
+//   client: "pg",
+//   connection: {
+//     host: "localhost",
+//     port: 5432,
+//     user: "me",
+//     password: "password",
+//     database: "api",
+//   },
+// });
 app.get("/users1", async (req, res) => {
-  const result = await knex.select("name").from("users1");
-  res.json({
-    users: result,
-  });
+  const result = await knex.select("*").from("users1");
+  res.json(result);
 });
 app.get("/", (request, response) => {
   response.json({ info: "Node.js, Express, and Postgres API" });

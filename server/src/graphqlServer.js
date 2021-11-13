@@ -3,7 +3,7 @@ const express = require("express");
 const db = require("./db/queries");
 const { ApolloServer, gql } = require("apollo-server-express");
 const typeDefs = require("./schema");
-// const knex = require("./db/knex");
+const knex = require("./db/knex");
 // const { Pool, Client } = require("pg");
 // const pool = new Pool({
 //   user: process.env.PG_USERNAME,
@@ -13,23 +13,23 @@ const typeDefs = require("./schema");
 //   port: process.env.PG_PORT,
 // });
 // pool.connect();
-const knex = require("knex")({
-  client: "pg",
-  connection: {
-    host: "localhost",
-    port: 5432,
-    user: "me",
-    password: "password",
-    database: "api",
-  },
-});
+// const knex = require("knex")({
+//   client: "pg",
+//   connection: {
+//     user: process.env.PG_USERNAME,
+//     host: "localhost",
+//     database: process.env.PG_DATABASE,
+//     password: process.env.PG_PASSWORD,
+//     port: process.env.PG_PORT,
+//   },
+// });
 
 const resolvers = {
   Query: {
-    // books: () => {
-    //   console.log("query called");
-    //   return books;
-    // },
+    books: () => {
+      console.log("query called");
+      return books;
+    },
     // user: () => {
     //   pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
     //     if (error) {
@@ -48,8 +48,6 @@ const resolvers = {
     },
   },
 };
-
-// // const server = new ApolloServer({ typeDefs, resolvers });
 
 async function serverStart() {
   const server = new ApolloServer({
