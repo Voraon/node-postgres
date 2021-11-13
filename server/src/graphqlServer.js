@@ -3,41 +3,48 @@ const express = require("express");
 const db = require("./db/queries");
 const { ApolloServer, gql } = require("apollo-server-express");
 const typeDefs = require("./schema");
-// const knex = require("knex")({
-//   client: "pg",
-//   connection: {
-//     host: "localhost",
-//     user: process.env.PG_USERNAME,
-//     password: process.env.PG_PASSWORD,
-//     database: process.env.PG_DATABASE,
-//   },
+// const knex = require("./db/knex");
+// const { Pool, Client } = require("pg");
+// const pool = new Pool({
+//   user: process.env.PG_USERNAME,
+//   host: "localhost",
+//   database: process.env.PG_DATABASE,
+//   password: process.env.PG_PASSWORD,
+//   port: process.env.PG_PORT,
 // });
-
-const { Pool, Client } = require("pg");
-const pool = new Pool({
-  user: process.env.PG_USERNAME,
-  host: "localhost",
-  database: process.env.PG_DATABASE,
-  password: process.env.PG_PASSWORD,
-  port: process.env.PG_PORT,
-});
 // pool.connect();
+const knex = require("knex")({
+  client: "pg",
+  connection: {
+    host: "localhost",
+    port: 5432,
+    user: "me",
+    password: "password",
+    database: "api",
+  },
+});
 
 const resolvers = {
   Query: {
-    books: () => {
-      console.log("query called");
-      return books;
+    // books: () => {
+    //   console.log("query called");
+    //   return books;
+    // },
+    // user: () => {
+    //   pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
+    //     if (error) {
+    //       throw error;
+    //     }
+    //     const response = results.rows;
+    //     console.log(response);
+    //     return response;
+    //   });
+    // },
+    user1: () => {
+      return knex.select("*").from("users1");
     },
-    user: () => {
-      pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
-        if (error) {
-          throw error;
-        }
-        const response = results.rows;
-        console.log(response);
-        return response;
-      });
+    post: () => {
+      return knex.select("*").from("posts");
     },
   },
 };
@@ -48,9 +55,6 @@ async function serverStart() {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    // context: async () => ({
-    //   db: await pool.connect(),
-    // }),
   });
   const app = express();
   const port = process.env.PORT;

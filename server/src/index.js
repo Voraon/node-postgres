@@ -5,18 +5,29 @@ const app = express();
 const db = require("./db/queries");
 const port = 3000;
 
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
-
+const knex = require("knex")({
+  client: "pg",
+  connection: {
+    host: "localhost",
+    port: 5432,
+    user: "me",
+    password: "password",
+    database: "api",
+  },
+});
+app.get("/users1", async (req, res) => {
+  const result = await knex.select("name").from("users1");
+  res.json({
+    users: result,
+  });
+});
 app.get("/", (request, response) => {
   response.json({ info: "Node.js, Express, and Postgres API" });
 });
 
 app.get("/users", db.getUsers);
+
+app.get("/emp", db.getEmployee);
 app.get("/users/:id", db.getUserById);
 app.post("/users", db.createUser);
 app.put("/users/:id", db.updateUser);

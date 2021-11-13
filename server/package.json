@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/index.js",
     "dev": "nodemon src/graphqlServer.js",
-    "migrate": "npx knex migrate:latest --knexfile ./src/knexconfig.js"
+    "migrate": "npx knex migrate:latest --knexfile ./src/knexfile.js",
+    "seeds": "npx knex"
   },
   "keywords": [],
   "author": "",

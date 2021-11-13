@@ -1,21 +1,24 @@
+require("dotenv").config();
 const { PG_USERNAME, PG_PASSWORD, PG_DATABASE, PG_PORT } = process.env;
 module.exports = {
   development: {
-    client: "postgresql",
+    client: "pg",
     connection: {
-      // TODO change to your db name
-      database: PG_DATABASE,
-
-      // change to your db user
-      user: PG_USERNAME,
-      password: PG_PASSWORD,
+      host: "localhost",
+      port: 5432,
+      user: "me",
+      password: "password",
+      database: "api",
     },
-    pool: {
-      min: 2,
-      max: 10,
-    },
+    // pool: {
+    //   min: 2,
+    //   max: 10,
+    // },
     migrations: {
       directory: "./db/migrations",
+    },
+    seeds: {
+      directory: "./db/seeds",
     },
   },
 };

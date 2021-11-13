@@ -10,10 +10,32 @@ const typeDefs = gql`
     name: String
     email: String
   }
+  type Employee {
+    id: Int
+    name: String
+    age: Int
+    address: String
+    salary: Int
+  }
+  type User1 {
+    id: Int
+    name: String
+    email: String
+    password: String
+  }
+  type Post {
+    id: Int
+    title: String
+    body: String
+    created_at: String
+  }
 
   type Query {
     books: [Book]
     user: [User]
+    user1: [User1]
+    post: [Post]
+    employee: [Employee]
   }
 `;
 module.exports = typeDefs;
