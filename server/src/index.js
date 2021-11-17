@@ -6,7 +6,7 @@ const db = require("./db/queries");
 const port = 3000;
 
 const knex = require("./db/knex");
-
+app.use(express.json());
 // const knex = require("knex")({
 //   client: "pg",
 //   connection: {
@@ -18,7 +18,21 @@ const knex = require("./db/knex");
 //   },
 // });
 app.get("/users1", async (req, res) => {
+  console.log("insdie get reque", req.body);
   const result = await knex.select("*").from("users1");
+  res.json(result);
+});
+app.post("/users1", async (req, res) => {
+  console.log("insdie post request", req.body);
+  const { id, name, email } = req.body;
+  // const result = await knex.select("*").from("users");
+  await knex("users").insert({
+    email: "hi@example.com",
+    id: "3",
+    name: "hi",
+  });
+
+  const result = await knex.select("*").from("users");
   res.json(result);
 });
 app.get("/", (request, response) => {

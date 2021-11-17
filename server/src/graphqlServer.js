@@ -40,11 +40,28 @@ const resolvers = {
     //     return response;
     //   });
     // },
+    user: () => {
+      return knex.select("*").from("users");
+    },
     user1: () => {
       return knex.select("*").from("users1");
     },
     post: () => {
       return knex.select("*").from("posts");
+      // return knex.raw("select * from posts");
+    },
+  },
+  Mutation: {
+    addUser: async (_, args) => {
+      const { id, name, email } = args;
+      console.log("args", id, name, email);
+      const userId = await knex("users").insert({
+        email: "hero@example.com",
+        id: "3",
+        name: "hero",
+      });
+
+      return knex.select("*").from("users");
     },
   },
 };

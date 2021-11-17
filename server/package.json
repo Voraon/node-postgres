@@ -8,7 +8,9 @@
     "start": "nodemon src/index.js",
     "dev": "nodemon src/graphqlServer.js",
     "migrate": "npx knex migrate:latest --knexfile ./src/knexfile.js",
-    "seeds": "npx knex"
+    "migration": "npx knex migrate:latest --env development --knexfile ./src/knexfile.js",
+    "seeds": "npx knex seed:make --knexfile ./src/knexfile.js",
+    "seedsrun": "npx knex seed:run --knexfile ./src/knexfile.js"
   },
   "keywords": [],
   "author": "",

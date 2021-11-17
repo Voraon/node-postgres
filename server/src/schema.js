@@ -37,5 +37,8 @@ const typeDefs = gql`
     post: [Post]
     employee: [Employee]
   }
+  type Mutation {
+    addUser(id: String, name: String, email: String): [User]
+  }
 `;
 module.exports = typeDefs;
