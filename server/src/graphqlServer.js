@@ -4,26 +4,6 @@ const db = require("./db/queries");
 const { ApolloServer, gql } = require("apollo-server-express");
 const typeDefs = require("./schema");
 const knex = require("./db/knex");
-// const { Pool, Client } = require("pg");
-// const pool = new Pool({
-//   user: process.env.PG_USERNAME,
-//   host: "localhost",
-//   database: process.env.PG_DATABASE,
-//   password: process.env.PG_PASSWORD,
-//   port: process.env.PG_PORT,
-// });
-// pool.connect();
-// const knex = require("knex")({
-//   client: "pg",
-//   connection: {
-//     user: process.env.PG_USERNAME,
-//     host: "localhost",
-//     database: process.env.PG_DATABASE,
-//     password: process.env.PG_PASSWORD,
-//     port: process.env.PG_PORT,
-//   },
-// });
-
 const resolvers = {
   Query: {
     books: () => {
@@ -41,7 +21,10 @@ const resolvers = {
     //   });
     // },
     user: () => {
-      return knex.select("*").from("users");
+      const selectedUser = knex.select("*").from("users");
+
+      console.log("user called", { selectedUser });
+      return selectedUser;
     },
     user1: () => {
       return knex.select("*").from("users1");
@@ -53,14 +36,15 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (_, args) => {
-      const { id, name, email } = args;
-      console.log("args", id, name, email);
-      const userId = await knex("users").insert({
-        email: "hero@example.com",
-        id: "3",
-        name: "hero",
-      });
-
+      const { id, user_name, user_email } = args.input;
+      console.log("args", id, user_email, user_name);
+      if (id) {
+        await knex("users").insert({
+          email: user_email,
+          id: id,
+          name: user_name,
+        });
+      }
       return knex.select("*").from("users");
     },
   },

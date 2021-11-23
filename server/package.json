@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js",
     "dev": "nodemon src/graphqlServer.js",
-    "migrate": "npx knex migrate:latest --knexfile ./src/knexfile.js",
+    "migrate": " knex migrate:latest --knexfile ./src/knexfile.js & npm run start",
     "migration": "npx knex migrate:latest --env development --knexfile ./src/knexfile.js",
+    "make": "npx knex migrate:make --knexfile ./src/knexfile.js",
     "seeds": "npx knex seed:make --knexfile ./src/knexfile.js",
-    "seedsrun": "npx knex seed:run --knexfile ./src/knexfile.js"
+    "start": "npm run migration & npm run seedsrun & nodemon src/index.js",
+    "seedsrun": "npx knex seed:run --knexfile ./src/knexfile.js",
+    "specificseedrun": "npx knex seed:run --specific=add_value.js --knexfile ./src/knexfile.js"
   },
   "keywords": [],
   "author": "",
@@ -28,5 +30,8 @@
   "devDependencies": {
     "nodemon": "^2.0.14",
     "prisma": "^3.4.2"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }

@@ -7,8 +7,8 @@ const typeDefs = gql`
 
   type User {
     id: Int
-    name: String
-    email: String
+    username: String
+    user_email: String
   }
   type Employee {
     id: Int
@@ -29,7 +29,11 @@ const typeDefs = gql`
     body: String
     created_at: String
   }
-
+  input UserInput {
+    id: String
+    user_name: String
+    user_email: String
+  }
   type Query {
     books: [Book]
     user: [User]
@@ -38,7 +42,7 @@ const typeDefs = gql`
     employee: [Employee]
   }
   type Mutation {
-    addUser(id: String, name: String, email: String): [User]
+    addUser(input: UserInput): [User]
   }
 `;
 module.exports = typeDefs;
